@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -28,15 +28,20 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: npm test # Make sure `npm test` runs your tests
+        run: npm test # Ensure that npm test runs your tests
 
       # Build the React app
       - run: npm run build --if-present
 
-      # Deploy to server
+      # Build and push Docker image
+      - name: Build Docker Image
+        run: |
+          docker build -t react-app .
+
+      # Deploy to Server (via SSH and Docker)
       - name: Deploy to Server
         run: |
           scp -r ./build/* gshan@Santheep:~/react-apps/react-docker
-          ssh gshan@Santheep "cd ~/react-apps/react-docker && pm2 restart react-app"
+          ssh gshan@Santheep "cd ~/react-apps/react-docker && docker build -t react-app . && docker run -d -p 3000:3000 react-app"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

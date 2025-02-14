@@ -27,8 +27,8 @@ jobs:
       - name: SSH into the Server and Manage Docker Container
         uses: appleboy/ssh-action@v0.1.0
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/gshan/react-apps/react-docker

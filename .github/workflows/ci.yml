@@ -37,7 +37,7 @@ jobs:
 
       # Archive the build (optional for later use)
       - name: Archive build
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: build
           path: build/

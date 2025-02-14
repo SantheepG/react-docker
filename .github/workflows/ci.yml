@@ -36,7 +36,7 @@ jobs:
       # Deploy to server
       - name: Deploy to Server
         run: |
-          scp -r ./build/* user@your-server:/path/to/deployment/directory
-          ssh user@your-server "cd /path/to/deployment/directory && pm2 restart your-app"
+          scp -r ./build/* gshan@Santheep:~/react-apps/react-docker
+          ssh gshan@Santheep "cd ~/react-apps/react-docker && pm2 restart react-app"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

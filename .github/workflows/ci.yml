@@ -6,43 +6,67 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
         node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      # Checkout the code
       - uses: actions/checkout@v4
-
-      # Set up Node.js and install dependencies
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-
-      # Install the dependencies
       - run: npm ci
+      - run: npm run build --if-present && npm test
+# name: Node.js CI
 
-      # Run tests
-      - name: Run tests
-        run: npm test # Ensure that npm test runs your tests
+# on:
+#   push:
+#     branches: ["main"]
 
-      # Build the React app
-      - run: npm run build --if-present
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-      # Build and push Docker image
-      - name: Build Docker Image
-        run: |
-          docker build -t react-app .
+#     strategy:
+#       matrix:
+#         node-version: [20.x]
 
-      # Deploy to Server (via SSH and Docker)
-      - name: Deploy to Server
-        run: |
-          scp -r ./build/* gshan@172.23.48.195:~/react-apps/react-docker
-          ssh gshan@172.23.48.195 "cd ~/react-apps/react-docker && docker build -t react-app . && docker run -d -p 3000:3000 react-app"
+#     steps:
+#       # Checkout the code
+#       - uses: actions/checkout@v4
 
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+#       # Set up Node.js and install dependencies
+#       - name: Use Node.js ${{ matrix.node-version }}
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: ${{ matrix.node-version }}
+#           cache: "npm"
+
+#       # Install the dependencies
+#       - run: npm ci
+
+#       # Run tests
+#       - name: Run tests
+#         run: npm test # Ensure that npm test runs your tests
+
+#       # Build the React app
+#       - run: npm run build --if-present
+
+#       # Build and push Docker image
+#       - name: Build Docker Image
+#         run: |
+#           docker build -t react-app .
+
+#       # Deploy to Server (via SSH and Docker)
+#       - name: Deploy to Server
+#         run: |
+#           scp -r ./build/* gshan@172.23.48.195:~/react-apps/react-docker
+#           ssh gshan@172.23.48.195 "cd ~/react-apps/react-docker && docker build -t react-app . && docker run -d -p 3000:3000 react-app"
+
+#         env:
+#           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

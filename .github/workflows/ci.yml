@@ -27,7 +27,6 @@ jobs:
 
       - name: Run tests
         run: npm test
-        continue-on-error: false
 
       - name: Build the app
         run: npm run build --if-present

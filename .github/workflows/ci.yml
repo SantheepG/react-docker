@@ -22,7 +22,7 @@ jobs:
 
       - name: Build the Docker image
         run: |
-          sudo docker build -t react-app .
+          docker build -t react-app .
 
       - name: SSH into the Server and Manage Docker Container
         uses: appleboy/ssh-action@v0.1.0
@@ -32,10 +32,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /home/gshan/react-apps/react-docker
-            sudo docker stop react-app || true
-            sudo docker rm react-app || true
-            sudo docker build -t react-app .
-            sudo docker run -d -p 3000:3000 --name react-app react-app
+            docker stop react-app || true
+            docker rm react-app || true
+            docker build -t react-app .
+            docker run -d -p 3000:3000 --name react-app react-app
 
       - name: Set up Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4

@@ -41,7 +41,8 @@ jobs:
       # Deploy to Server (via SSH and Docker)
       - name: Deploy to Server
         run: |
-          scp -r ./build/* gshan@Santheep:~/react-apps/react-docker
-          ssh gshan@Santheep "cd ~/react-apps/react-docker && docker build -t react-app . && docker run -d -p 3000:3000 react-app"
+          scp -r ./build/* gshan@172.23.48.195:~/react-apps/react-docker
+          ssh gshan@172.23.48.195 "cd ~/react-apps/react-docker && docker build -t react-app . && docker run -d -p 3000:3000 react-app"
+
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

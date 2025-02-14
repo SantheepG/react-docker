@@ -10,7 +10,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          React App dockerized 6
+          React App dockerized 7
         </a>
       </header>
     </div>
